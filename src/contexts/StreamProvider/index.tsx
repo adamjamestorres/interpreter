@@ -41,9 +41,14 @@ export const StreamProvider = ({ children }: { children: React.ReactNode }) => {
           return token;
         };
 
+        const apiKey = process.env.NEXT_PUBLIC_STREAM_API_KEY;
+        if (!apiKey) {
+          throw new Error('Stream API key is not configured');
+        }
+
         // Initialize Stream client
         const streamClient = new StreamVideoClient({
-          apiKey: process.env.NEXT_PUBLIC_STREAM_API_KEY!,
+          apiKey,
           user,
           tokenProvider,
         });

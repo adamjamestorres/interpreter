@@ -23,7 +23,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const apiSecret = process.env.STREAM_API_SECRET;
 
     if (!apiKey || !apiSecret) {
-      console.error('Stream API credentials missing');
+      console.error('Stream API credentials missing', { 
+        hasApiKey: !!apiKey,
+        hasApiSecret: !!apiSecret 
+      });
       return res.status(500).json({ error: 'Stream API credentials not configured' });
     }
 
