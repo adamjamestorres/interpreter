@@ -1,53 +1,40 @@
-# Next.js Tailwind CSS TypeScript App
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
 
 ## Getting Started
 
-To run the project, follow these steps:
+First, run the development server:
 
-1  Install the dependencies:
-   ```
-   npm install
-   ```
-
-2. Start the development server:
-   ```
-   npm run dev
-   ```
-3. Open your browser and navigate to `http://localhost:3000`.
-
-## Documentation Links
-
-- Next.js Documentation: https://nextjs.org/docs
-- Tailwind CSS Documentation: https://tailwindcss.com/docs
-- TypeScript Documentation: https://www.typescriptlang.org/docs/
-
-## API Routes
-
-Next.js allows you to create API routes that can be accessed via HTTP requests. For example, in `src/pages/api/hello.ts`, we define a simple API route:
-
-```typescript
-export default function handler(req, res) {
-  res.status(200).json({ message: 'Hello, World!' });
-}
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
 ```
 
-This route can be accessed at `http://localhost:3000/api/hello`.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Dynamic Pages
+You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
 
-Dynamic pages in Next.js are created using square brackets in the file name. For example, in `src/pages/[dynamic].tsx`, we can create a dynamic route that captures the URL segment:
+[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
 
-```typescript
-import { useRouter } from 'next/router';
+The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
 
-const DynamicPage = () => {
-  const router = useRouter();
-  const { dynamic } = router.query;
+This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-  return <div>Dynamic Page: {dynamic}</div>;
-};
+## Learn More
 
-export default DynamicPage;
-```
+To learn more about Next.js, take a look at the following resources:
 
-This page can be accessed at `http://localhost:3000/some-dynamic-value`, where `some-dynamic-value` will be displayed on the page.
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
+
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.

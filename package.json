@@ -1,31 +1,35 @@
 {
-  "name": "nextjs-tailwind-ts-app",
-  "version": "1.0.0",
+  "name": "my-app",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "lint": "next lint"
   },
   "dependencies": {
-    "@types/react-webcam": "^1.1.0",
-    "next": "latest",
-    "react": "latest",
-    "react-dom": "latest",
-    "react-webcam": "^7.2.0",
-    "simple-peer": "^9.11.1",
-    "socket.io-client": "^4.8.1",
-    "tailwindcss": "^4.0.0",
-    "uuid": "^11.1.0"
+    "@clerk/nextjs": "^4.27.2",
+    "@stream-io/video-react-sdk": "^1.20.1",
+    "@types/jsonwebtoken": "^9.0.2",
+    "classnames": "^2.3.2",
+    "jsonwebtoken": "^9.0.2",
+    "nanoid": "^4.0.2",
+    "next": "13.5.7",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "stream-chat": "^8.14.1",
+    "stream-chat-react": "^10.14.1"
   },
   "devDependencies": {
-    "@types/node": "24.3.0",
-    "@types/simple-peer": "^9.11.8",
-    "@types/socket.io": "^3.0.1",
-    "@types/socket.io-client": "^1.4.36",
-    "@types/uuid": "^10.0.0",
-    "autoprefixer": "latest",
-    "postcss": "latest",
-    "typescript": "latest"
+    "@types/node": "^20.4.5",
+    "@types/react": "^18.2.18",
+    "@types/react-dom": "^18.2.7",
+    "autoprefixer": "^10.4.14",
+    "eslint": "^8.46.0",
+    "eslint-config-next": "13.5.7",
+    "postcss": "^8.4.27",
+    "tailwindcss": "^3.3.3",
+    "typescript": "^5.1.6"
   }
 }
