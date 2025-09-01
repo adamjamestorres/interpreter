@@ -1,35 +1,48 @@
-import clsx from 'clsx';
-import React, { ReactNode } from 'react';
+import { ButtonHTMLAttributes, ReactNode } from 'react';
+import cn from 'classnames';
 
-interface ButtonProps {
-  children: ReactNode;
-  onClick?: () => void;
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: 'primary' | 'secondary' | 'outline';
   size?: 'sm' | 'md' | 'lg';
-  rounding?: 'sm' | 'md' | 'lg';
-  className?: string;
-  disabled?: boolean;
+  children: ReactNode;
+  fullWidth?: boolean;
 }
 
 const Button = ({
+  variant = 'primary',
+  size = 'md',
   children,
-  onClick,
-  size = 'lg',
-  rounding = 'sm',
-  disabled = false,
   className,
+  fullWidth,
+  disabled,
+  ...props
 }: ButtonProps) => {
+  const baseStyles = 'rounded-md font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2';
+  
+  const variants = {
+    primary: 'bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500',
+    secondary: 'bg-gray-600 text-white hover:bg-gray-700 focus:ring-gray-500',
+    outline: 'border-2 border-gray-300 text-gray-700 hover:bg-gray-50 focus:ring-gray-500',
+  };
+
+  const sizes = {
+    sm: 'px-3 py-1.5 text-sm',
+    md: 'px-4 py-2 text-base',
+    lg: 'px-6 py-3 text-lg',
+  };
+
   return (
     <button
-      onClick={onClick}
-      className={clsx(
-        size === 'sm' && 'h-9 text-sm',
-        size === 'md' && 'h-12 text-base',
-        size === 'lg' && 'h-14 text-base',
-        rounding === 'sm' ? 'rounded' : 'rounded-full',
-        'px-6 bg-primary hover:bg-hover-primary inline-flex items-center justify-center text-center font-medium tracking-looser text-white hover:shadow transition-[border_.28s_cubic-bezier(.4,0,.2,1),box-shadow_.28s_cubic-bezier(.4,0,.2,1)] disabled:bg-[#e4e4e4] disabled:border-[#e4e4e4] disabled:text-[#999999] active:bg-deep-blue active:border-deep-blue select-none',
+      className={cn(
+        baseStyles,
+        variants[variant],
+        sizes[size],
+        fullWidth && 'w-full',
+        disabled && 'opacity-50 cursor-not-allowed',
         className
       )}
       disabled={disabled}
+      {...props}
     >
       {children}
     </button>

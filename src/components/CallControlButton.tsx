@@ -1,26 +1,34 @@
-import IconButton, { IconButtonProps } from './IconButton';
-import clsx from 'clsx';
+import { ButtonHTMLAttributes, ReactNode } from 'react';
+import IconButton from './IconButton';
 
-interface CallControlButtonProps extends Omit<IconButtonProps, 'variant'> {}
+interface CallControlButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  icon: ReactNode;
+  active?: boolean;
+  variant?: 'primary' | 'secondary' | 'danger';
+}
 
 const CallControlButton = ({
-  active,
-  alert,
-  className,
   icon,
-  onClick,
-  title,
+  active = false,
+  variant = 'primary',
+  ...props
 }: CallControlButtonProps) => {
+  const variantMap = {
+    primary: 'primary',
+    secondary: 'secondary',
+    danger: 'outline',
+  } as const;
+
   return (
     <IconButton
-      variant="secondary"
+      size="lg"
+      variant={variantMap[variant]}
       active={active}
-      alert={alert}
-      icon={icon}
-      title={title}
-      className={clsx('call-control-button', className)}
-      onClick={onClick}
-    />
+      className={variant === 'danger' ? 'bg-red-500 text-white hover:bg-red-600 border-red-500' : ''}
+      {...props}
+    >
+      {icon}
+    </IconButton>
   );
 };
 

@@ -1,77 +1,68 @@
-import { useMemo } from 'react';
-import {
-  CallParticipantResponse,
-  StreamVideoParticipant,
-} from '@stream-io/video-react-sdk';
-import clsx from 'clsx';
+import { HTMLAttributes } from 'react';
+import cn from 'classnames';
 import Image from 'next/image';
 
-import useUserColor from '../hooks/useUserColor';
-
-interface AvatarProps {
-  width?: number;
-  text?: string;
-  participant?: StreamVideoParticipant | CallParticipantResponse | {};
+interface AvatarProps extends HTMLAttributes<HTMLDivElement> {
+  src?: string;
+  alt?: string;
+  size?: 'sm' | 'md' | 'lg';
+  fallback?: string;
 }
 
-export const avatarClassName = 'avatar';
-const IMAGE_SIZE = 160;
+const Avatar = ({
+  src,
+  alt = 'Avatar',
+  size = 'md',
+  fallback,
+  className,
+  ...props
+}: AvatarProps) => {
+  const sizes = {
+    sm: 'w-8 h-8 text-sm',
+    md: 'w-10 h-10 text-base',
+    lg: 'w-12 h-12 text-lg',
+  };
 
-const Avatar = ({ text = '', width, participant = {} }: AvatarProps) => {
-  const color = useUserColor();
+  const getFallbackInitials = (name: string) => {
+    return name
+      .split(' ')
+      .map((n) => n[0])
+      .slice(0, 2)
+      .join('')
+      .toUpperCase();
+  };
 
-  const name = useMemo(() => {
-    if ((participant as CallParticipantResponse)?.user) {
-      return (
-        (participant as CallParticipantResponse).user.name ||
-        (participant as CallParticipantResponse).user.id
-      );
-    }
+  if (!src) {
     return (
-      (participant as StreamVideoParticipant).name ||
-      (participant as StreamVideoParticipant).userId
+      <div
+        className={cn(
+          'rounded-full bg-gray-200 flex items-center justify-center font-medium text-gray-600',
+          sizes[size],
+          className
+        )}
+        {...props}
+      >
+        {fallback ? getFallbackInitials(fallback) : '?'}
+      </div>
     );
-  }, [participant]);
-
-  const randomColor = useMemo(() => {
-    if (text) return color('Anonymous');
-
-    return color(name);
-  }, [color, name, text]);
-
-  const image = useMemo(() => {
-    if ((participant as CallParticipantResponse)?.user) {
-      return (participant as CallParticipantResponse).user?.image;
-    }
-    return (participant as StreamVideoParticipant)?.image;
-  }, [participant]);
-
-  if (image)
-    return (
-      <Image
-        className="rounded-full overflow-hidden"
-        src={image}
-        alt={name}
-        width={width || IMAGE_SIZE}
-        height={width || IMAGE_SIZE}
-      />
-    );
+  }
 
   return (
     <div
-      style={{
-        backgroundColor: randomColor,
-        width: width ? width : '30%',
-      }}
-      className={clsx(
-        !width && 'max-w-40',
-        'aspect-square rounded-full uppercase text-white font-sans-serif font-medium flex items-center justify-center',
-        avatarClassName
+      className={cn(
+        'rounded-full bg-gray-200 overflow-hidden',
+        sizes[size],
+        className
       )}
+      {...props}
     >
-      <div className={clsx(text ? 'text-xs' : 'text-base', 'select-none')}>
-        {text ? text : name?.length > 0 ? name[0] : ''}
-      </div>
+      <Image
+        src={src}
+        alt={alt}
+        width={size === 'sm' ? 32 : size === 'md' ? 40 : 48}
+        height={size === 'sm' ? 32 : size === 'md' ? 40 : 48}
+        className="h-full w-full rounded-full object-cover"
+        />
     </div>
   );
 };

@@ -1,67 +1,60 @@
-import { ReactNode } from 'react';
-import clsx from 'clsx';
+import { ButtonHTMLAttributes, ReactNode } from 'react';
+import cn from 'classnames';
 
-import Exclamation from './icons/Exclamation';
-
-export interface IconButtonProps {
-  icon: ReactNode;
-  onClick?: () => void;
+interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  children: ReactNode;
+  variant?: 'primary' | 'secondary' | 'outline';
+  size?: 'sm' | 'md' | 'lg';
   active?: boolean;
-  variant?: 'primary' | 'secondary';
-  alert?: boolean;
-  title?: string;
-  className?: string;
 }
 
 const IconButton = ({
-  active = false,
-  alert = false,
-  icon,
-  onClick,
+  children,
   variant = 'primary',
-  title,
+  size = 'md',
+  active = false,
   className,
+  disabled,
+  ...props
 }: IconButtonProps) => {
-  const alertIcon = (
-    <div className="absolute -top-[5px] right-0 w-6 h-6 bg-meet-orange rounded-full flex items-center justify-center">
-      <Exclamation />
-    </div>
-  );
+  const baseStyles = 'rounded-full flex items-center justify-center transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2';
+  
+  const variants = {
+    primary: 'bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500',
+    secondary: 'bg-gray-600 text-white hover:bg-gray-700 focus:ring-gray-500',
+    outline: 'border-2 border-gray-300 text-gray-700 hover:bg-gray-50 focus:ring-gray-500',
+  };
 
-  if (variant === 'primary')
-    return (
-      <button
-        onClick={onClick}
-        title={title}
-        className={clsx(
-          'relative h-9 w-9 rounded-full inline-flex items-center justify-center text-center text-base font-medium hover:bg-[#f6f6f6] disabled:bg-transparent disabled:text-[#3c404361] [&_svg]:fill-meet-gray',
-          className
-        )}
-      >
-        {icon}
-        {alert && alertIcon}
-      </button>
-    );
-  else
-    return (
-      <button
-        onClick={onClick}
-        title={title}
-        style={{
-          WebkitMaskImage: 'none',
-        }}
-        className={clsx(
-          'relative h-14 w-14 rounded-full inline-flex items-center justify-center text-center text-base font-medium border border-solid transition-all ease-linear duration-250 hover:transition-none disabled:bg-transparent disabled:text-[#3c404361]',
-          active
-            ? 'bg-meet-red border-meet-red hover:bg-hover-red hover:border-hover-red transition-none'
-            : 'hover:bg-[rgba(255,255,255,.4)] border-white',
-          className
-        )}
-      >
-        {icon}
-        {alert && alertIcon}
-      </button>
-    );
+  const sizes = {
+    sm: 'p-1.5',
+    md: 'p-2',
+    lg: 'p-3',
+  };
+
+  const iconSizes = {
+    sm: 'w-4 h-4',
+    md: 'w-5 h-5',
+    lg: 'w-6 h-6',
+  };
+
+  return (
+    <button
+      className={cn(
+        baseStyles,
+        variants[variant],
+        sizes[size],
+        active && 'ring-2 ring-offset-2',
+        disabled && 'opacity-50 cursor-not-allowed',
+        className
+      )}
+      disabled={disabled}
+      {...props}
+    >
+      <div className={iconSizes[size]}>
+        {children}
+      </div>
+    </button>
+  );
 };
 
 export default IconButton;
